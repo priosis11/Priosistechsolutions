@@ -1,0 +1,16 @@
+# Clean URLs for Apache / Hostinger:  /about  ->  about.html
+# (GitHub Pages already does this by itself and simply ignores this file.)
+
+Options -MultiViews
+RewriteEngine On
+
+# Old links: send /index.html to / and /about.html to /about (permanent redirect)
+RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
+RewriteRule ^ / [R=301,L]
+RewriteCond %{THE_REQUEST} \s/(.+?)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L,NE]
+
+# Show about.html when someone opens /about
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
